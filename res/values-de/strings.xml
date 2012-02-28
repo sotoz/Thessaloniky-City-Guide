@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, ThessCityGuideActivity!</string>
+    <string name="app_name">Thess City Guide</string>
+	<string name="byName">Namentlich</string>
+	<string name="buzzmode">Buzzmode</string>
+	<string name="various">Verschieden</string>
+	<string name="byProximity">Durch Nähe</string>	
+	<string name="listSorting">List Sorting</string>			
+	<string name="settings">Einstellungen</string>
+	<string name="map">Karte</string>			
+	<string name="list">Liste</string>
+	<string name="debug">thess city (german) guide ver0.1</string>
+</resources>
