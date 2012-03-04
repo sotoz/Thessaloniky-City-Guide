@@ -2,20 +2,28 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
-        android:layout_marginTop="65dp"
-        >
+        android:layout_height="fill_parent" >
 
         <TextView
             android:id="@+id/buzzModeTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="46dp"
             android:layout_weight="0.19"
-            android:text="TextView" />
+            android:text="TextView"
+            android:layout_marginTop="65dp" />
+
+        <ListView
+            android:id="@+id/android:list"
+            android:layout_width="fill_parent"
+            android:layout_height="318dp"
+            android:layout_marginTop="65dp" >
+        </ListView>
+
         <TextView
             android:id="@+id/valueTexts"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            
-            android:text="TextView" />
+            android:layout_height="wrap_content"           
+            android:text="TextView"
+            android:layout_marginTop="65dp" />
+
     </LinearLayout>

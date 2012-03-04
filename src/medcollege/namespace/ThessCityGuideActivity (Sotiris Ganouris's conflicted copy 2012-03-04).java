@@ -4,14 +4,12 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TabHost;
+
 
 @SuppressWarnings("deprecation")
 public class ThessCityGuideActivity extends TabActivity {
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +25,7 @@ public class ThessCityGuideActivity extends TabActivity {
 		intent = new Intent().setClass(this, ListMonuments.class);
 		spec = tabHost
 				.newTabSpec("Tab 1")
-				.setIndicator("List",
-						res.getDrawable(android.R.drawable.ic_menu_today))
+				.setIndicator("List", res.getDrawable(R.drawable.ic_menu_today))
 				.setContent(intent);
 		tabHost.addTab(spec);
 
@@ -37,46 +34,20 @@ public class ThessCityGuideActivity extends TabActivity {
 		spec = tabHost
 				.newTabSpec("Tab 2")
 				.setIndicator("Map View",
-						res.getDrawable(android.R.drawable.ic_menu_mapmode))
+						res.getDrawable(R.drawable.ic_menu_mapmode))
 				.setContent(intent);
 		tabHost.addTab(spec);
 
 		// Third Tab
-		/*intent = new Intent().setClass(this, ListSettings.class);
+		intent = new Intent().setClass(this, ListSettings.class);
 		spec = tabHost
 				.newTabSpec("Tab 3")
 				.setIndicator("Settings",
-						res.getDrawable(android.R.drawable.ic_menu_manage))
+						res.getDrawable(R.drawable.ic_menu_manage))
 				.setContent(intent);
 		spec.setContent(intent);
 		tabHost.addTab(spec);
-		 */
+
 		tabHost.setCurrentTab(0);
-
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.prefs:
-			Intent intent = new Intent(this, ListSettings.class);
-			this.startActivity(intent);
-			return true;
-		case R.id.exit:
-
-			System.exit(0); 
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
 }

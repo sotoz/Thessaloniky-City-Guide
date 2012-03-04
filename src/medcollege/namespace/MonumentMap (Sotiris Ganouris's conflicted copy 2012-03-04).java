@@ -104,11 +104,9 @@ public class MonumentMap extends MapActivity {
 				"One of the most characteristic monuments of Thessaloniki is the triumphal Arch of Galerius (Kamara), located north of Egnatia Street and in close proximity to the Rotunda.");
 		// mporoume na emfanisoume ena minimataki otan klikarei kapios
 		// pano sto ikonidio
-	
-		itemizedOverlay.addOverlay(overlayitem);		
+
+		itemizedOverlay.addOverlay(overlayitem);
 		mapOverlays.add(itemizedOverlay);
-		
-		
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
