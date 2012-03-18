@@ -1,94 +1,84 @@
 package medcollege.namespace;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class ListMonuments extends ListActivity{
-	private final String DB_NAME = "thesscityguide";
-	private final String TABLE_NAME = "monuments";
-	
+public class ListMonuments extends ListActivity {
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listmonuments);
-		SharedPreferences getPrefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		//String values = getPrefs.getString("list", "4");
-		boolean buzzmode = getPrefs.getBoolean("checkboxBuzzmode", false);
+		// SharedPreferences getPrefs =
+		// PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		// String values = getPrefs.getString("list", "4");
+		// boolean buzzmode = getPrefs.getBoolean("checkboxBuzzmode", false);
 		// default setting = false gia to buzzmode otan ginete install h
 		// efarmogi kai den exei ginei set.
 
-		TextView buzzmodeVal, valueText;
-		valueText = (TextView) findViewById(R.id.valueTexts);
-		buzzmodeVal = (TextView) findViewById(R.id.buzzModeTextView);
-		if (buzzmode) {
-			buzzmodeVal.setText("buzzmode is on");
-		} else {
-			buzzmodeVal.setText("buzzmode is off");
+		ArrayList<String> titles = new ArrayList<String>(); // one arrayList for
+															// the titles and
+															// one for the
+															// descriptions
+		ArrayList<String> descriptions = new ArrayList<String>();
+		TextView titleText;
+
+		// calling the databasehelper class to access some custom methods for
+		// manipulating the database
+		DataBaseHelper myDbHelper = new DataBaseHelper(null);
+		myDbHelper = new DataBaseHelper(this);
+		try {
+			myDbHelper.createDataBase(); // this import the database that exists
+											// in the assets folder
+		} catch (IOException ioe) {
+			throw new Error("Unable to create database");
 		}
-		//valueText.setText(values);
+		try {
+			SQLiteDatabase thessDB = myDbHelper.openDataBase();
+			Cursor c = thessDB.rawQuery("SELECT title, desc FROM MONUMENTS",
+					null);
+
+			if (c != null) {
+				if (c.moveToFirst()) {
+					do {
+						String MonumentTitle = c.getString(c
+								.getColumnIndex("title"));
+						String Description = c.getString(c
+								.getColumnIndex("desc"));
+						titles.add(MonumentTitle);
+						descriptions.add(Description);
+					} while (c.moveToNext());
+				}
+			}
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
+		ListView lv = displayResultList(titles, descriptions); // this method displays the monument titles
+									// with the help of a ListAdapter
 		
-        ArrayList<String> results = new ArrayList<String>();
-        SQLiteDatabase thessDB = null;
-        
-        try {
-        	thessDB =  this.openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
-        	//thessDB.execSQL("DROP TABLE " + TABLE_NAME +";");
-        	thessDB.execSQL("CREATE TABLE IF NOT EXISTS " +
-        			TABLE_NAME +
-        			" (MonumentTitle VARCHAR, Description VARCHAR," +
-        			" Address VARCHAR, Lon INT(3), Lat INT(3));");
-        	
-        	thessDB.execSQL("INSERT INTO " +
-        			TABLE_NAME +
-        			" Values ('Kamara','lorem ipsum dolor sit amet','Egnatias 22',333,444);");
-        	thessDB.execSQL("INSERT INTO " +
-        			TABLE_NAME +
-        			" Values ('Mouseio','mpla mpal mpla','kouzani',253,666);");
-        	thessDB.execSQL("INSERT INTO " +
-        			TABLE_NAME +
-        			" Values ('plateia','foo bar bar foo','sotiris',201,202);");
-        	
-        	Cursor c = thessDB.rawQuery("SELECT MonumentTitle, Description FROM " +
-        			TABLE_NAME, null);
-        	
-        	//LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	
-        	//View v = vi.inflate(R.layout.row, null);
+	}
 
-        	if (c != null ) {
-        		if  (c.moveToFirst()) {
-        			do {
-        				String MonumentTitle = c.getString(c.getColumnIndex("MonumentTitle"));
-        				String Description = c.getString(c.getColumnIndex("Description"));
-        				results.add("" + MonumentTitle + ",Description: " + Description);
-        				//TextView tt = (TextView) v.findViewById(R.id.toptext);
-        				valueText.setText("Monument Title: " + MonumentTitle);
-        			}while (c.moveToNext());
-        		} 
-        	}
-        	//valueText.setText(results);
-        	//this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.,results));
-
-            
-        } catch (SQLiteException se ) {
-        	Log.e(getClass().getSimpleName(), "Could not create or Open the database");
-        } finally {
-        	if (thessDB != null)        		
-        		thessDB.close();
-        }
-
-
+	private ListView displayResultList(ArrayList<String> titles, ArrayList<String> descriptions) {
+		setListAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, titles));
+		ListView lv = getListView();
+		lv.setTextFilterEnabled(true);
+		return lv;
 	}
 
 }

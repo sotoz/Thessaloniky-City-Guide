@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-@SuppressWarnings("deprecation")
 public class ThessCityGuideActivity extends TabActivity {
 
 	/** Called when the activity is first created. */
@@ -40,17 +39,6 @@ public class ThessCityGuideActivity extends TabActivity {
 						res.getDrawable(android.R.drawable.ic_menu_mapmode))
 				.setContent(intent);
 		tabHost.addTab(spec);
-
-		// Third Tab
-		/*intent = new Intent().setClass(this, ListSettings.class);
-		spec = tabHost
-				.newTabSpec("Tab 3")
-				.setIndicator("Settings",
-						res.getDrawable(android.R.drawable.ic_menu_manage))
-				.setContent(intent);
-		spec.setContent(intent);
-		tabHost.addTab(spec);
-		 */
 		tabHost.setCurrentTab(0);
 
 	}
@@ -72,7 +60,7 @@ public class ThessCityGuideActivity extends TabActivity {
 			return true;
 		case R.id.exit:
 
-			System.exit(0); 
+			System.exit(0);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
