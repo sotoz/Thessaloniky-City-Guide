@@ -3,17 +3,18 @@ package medcollege.namespace;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,10 +32,8 @@ public class ListMonuments extends ListActivity {
 		// default setting = false gia to buzzmode otan ginete install h
 		// efarmogi kai den exei ginei set.
 
-		ArrayList<String> titles = new ArrayList<String>(); // one arrayList for
-															// the titles and
-															// one for the
-															// descriptions
+		// one arrayList for the titles and one for the descriptions
+		ArrayList<String> titles = new ArrayList<String>();
 		ArrayList<String> descriptions = new ArrayList<String>();
 		TextView titleText;
 
@@ -68,17 +67,48 @@ public class ListMonuments extends ListActivity {
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
-		ListView lv = displayResultList(titles, descriptions); // this method displays the monument titles
-									// with the help of a ListAdapter
-		
+		// the following method displays the monument titles with the help of a
+		// ListAdapter
+		ListView lv = displayResultList(titles, descriptions);
+
 	}
 
-	private ListView displayResultList(ArrayList<String> titles, ArrayList<String> descriptions) {
+	private ListView displayResultList(ArrayList<String> titles,
+			ArrayList<String> descriptions) {
 		setListAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, titles));
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
+		lv.setClickable(true);
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String title = (String) parent.getItemAtPosition(position);
+				showDialog(1);
+
+			}
+		});
 		return lv;
 	}
 
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+
+		dialog = getMyDialog();
+
+		return dialog;
+	}
+
+	private Dialog getMyDialog() {
+		Dialog dialog = new Dialog(this);
+
+		dialog.setContentView(R.layout.view_monument);
+		dialog.setTitle("Custom Dialog");
+
+		TextView text = (TextView) dialog.findViewById(R.id.text);
+		text.setText("Hello, this is a custom dialog!");
+		ImageView image = (ImageView) dialog.findViewById(R.id.monimage);
+		image.setImageResource(R.drawable.image);
+		return dialog;
+	}
 }

@@ -6,7 +6,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/monimage"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="10dp" />
@@ -16,5 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:textColor="#FFF" />
+
+
 
 </LinearLayout>
