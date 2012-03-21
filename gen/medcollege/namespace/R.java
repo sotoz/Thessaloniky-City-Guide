@@ -21,15 +21,14 @@ public final class R {
     public static final class id {
         public static final int bottomtext=0x7f080005;
         public static final int debug=0x7f080001;
-        public static final int exit=0x7f08000b;
+        public static final int exit=0x7f08000a;
         public static final int icon=0x7f080003;
         public static final int layout_root=0x7f080007;
         public static final int linearLayout1=0x7f080000;
         public static final int list=0x7f080006;
         public static final int mapview=0x7f080002;
-        public static final int monimage=0x7f080008;
-        public static final int prefs=0x7f08000a;
-        public static final int text=0x7f080009;
+        public static final int monImage=0x7f080008;
+        public static final int prefs=0x7f080009;
         public static final int toptext=0x7f080004;
     }
     public static final class layout {
@@ -44,22 +43,24 @@ public final class R {
         public static final int menu=0x7f070000;
     }
     public static final class string {
-        public static final int addrText=0x7f06000f;
+        public static final int addrText=0x7f060010;
         public static final int app_name=0x7f060001;
         public static final int buzzmode=0x7f060003;
         public static final int buzzmodeonoff=0x7f060004;
         public static final int byName=0x7f060002;
         public static final int byProximity=0x7f060006;
         public static final int debug=0x7f06000b;
-        public static final int english=0x7f060011;
+        public static final int english=0x7f060012;
         public static final int exit=0x7f06000d;
-        public static final int german=0x7f060010;
-        public static final int greek=0x7f060012;
+        public static final int german=0x7f060011;
+        public static final int greek=0x7f060013;
         public static final int hello=0x7f060000;
-        public static final int language=0x7f060013;
+        public static final int language=0x7f060014;
         public static final int list=0x7f06000a;
         public static final int listSorting=0x7f060007;
         public static final int map=0x7f060009;
+        public static final int monImage=0x7f06000f;
+        public static final int monumentImage=0x7f060015;
         public static final int preferences=0x7f06000e;
         public static final int settings=0x7f060008;
         public static final int various=0x7f060005;

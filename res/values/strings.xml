@@ -15,4 +15,5 @@
 	<string name="zoomValue">Zoom</string>
 	<string name="exit">Exit</string>
 	<string name="preferences">Preferences</string>
+	<string name="monImage">Monument Image</string>
 </resources>

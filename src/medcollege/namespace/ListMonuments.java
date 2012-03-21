@@ -3,23 +3,25 @@ package medcollege.namespace;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class ListMonuments extends ListActivity {
-
+	// one arrayList for the titles and one for the descriptions
+	public ArrayList<String> titles = new ArrayList<String>();
+	public ArrayList<String> descriptions = new ArrayList<String>();
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,6 @@ public class ListMonuments extends ListActivity {
 		// default setting = false gia to buzzmode otan ginete install h
 		// efarmogi kai den exei ginei set.
 
-		// one arrayList for the titles and one for the descriptions
-		ArrayList<String> titles = new ArrayList<String>();
-		ArrayList<String> descriptions = new ArrayList<String>();
-		TextView titleText;
 
 		// calling the databasehelper class to access some custom methods for
 		// manipulating the database
@@ -83,32 +81,45 @@ public class ListMonuments extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				String title = (String) parent.getItemAtPosition(position);
-				showDialog(1);
-
+				showAlertDialog(position);
 			}
 		});
 		return lv;
 	}
 
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
+	private void showAlertDialog(int position){
+	    LayoutInflater inflater=LayoutInflater.from(this);
+	    View addView=inflater.inflate(R.layout.view_monument, null);
+	    ImageView image = (ImageView) addView.findViewById(R.id.monImage);
+	    image.setImageResource(R.drawable.image);
 
-		dialog = getMyDialog();
-
-		return dialog;
+	    new AlertDialog.Builder(this)
+	      .setTitle(getTitle(position))
+	      .setView(addView)
+	      .setMessage(getDesc(position))
+	      .setPositiveButton("View Details",
+	                          new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog,
+	                              int whichButton) {
+	          // ignore
+	        }
+	      })
+	      .setNegativeButton("Cancel",
+	                          new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog,
+	                              int whichButton) {
+	          // ignore, just dismiss
+	        }
+	      })
+	      .show();
 	}
 
-	private Dialog getMyDialog() {
-		Dialog dialog = new Dialog(this);
-
-		dialog.setContentView(R.layout.view_monument);
-		dialog.setTitle("Custom Dialog");
-
-		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText("Hello, this is a custom dialog!");
-		ImageView image = (ImageView) dialog.findViewById(R.id.monimage);
-		image.setImageResource(R.drawable.image);
-		return dialog;
+	private String getTitle(int position){
+		String t =  titles.get(position);
+		return t;
+	}
+	private String getDesc(int position){
+		String t = descriptions.get(position);
+		return t;
 	}
 }

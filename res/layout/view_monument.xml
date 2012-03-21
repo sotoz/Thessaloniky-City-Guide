@@ -6,17 +6,10 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/monimage"
+        android:contentDescription="@+string/monumentImage"
+        android:id="@+id/monImage"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="10dp" />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:textColor="#FFF" />
-
-
 
 </LinearLayout>
