@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -91,7 +90,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Copies your database from your local assets-folder to the just created
 	 * empty database in the system folder, from where it can be accessed and
-	 * handled. This is done by transfering bytestream.
+	 * handled. This is done by transferring bytestream.
 	 * */
 	private void copyDataBase() throws IOException {
 		// Open your local db as the input stream

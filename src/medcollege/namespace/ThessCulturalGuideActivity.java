@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-public class ThessCityGuideActivity extends TabActivity {
+public class ThessCulturalGuideActivity extends TabActivity {
 
 	/** Called when the activity is first created. */
 	@Override

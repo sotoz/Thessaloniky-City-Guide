@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,9 +21,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 public class ListMonuments extends ListActivity {
-	// one arrayList for the titles and one for the descriptions
-	public ArrayList<String> titles = new ArrayList<String>();
-	public ArrayList<String> descriptions = new ArrayList<String>();
+	// one arrayList for the ids, titles, one for the descriptions and one for the
+	// images
+	private ArrayList<String> ids = new ArrayList<String>();
+	private ArrayList<String> titles = new ArrayList<String>();
+	private ArrayList<String> descriptions = new ArrayList<String>();
+	private ArrayList<String> images = new ArrayList<String>();
+
+	public int position;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,6 @@ public class ListMonuments extends ListActivity {
 		// PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		// String values = getPrefs.getString("list", "4");
 		// boolean buzzmode = getPrefs.getBoolean("checkboxBuzzmode", false);
-		// default setting = false gia to buzzmode otan ginete install h
-		// efarmogi kai den exei ginei set.
 
 
 		// calling the databasehelper class to access some custom methods for
@@ -47,27 +52,35 @@ public class ListMonuments extends ListActivity {
 		}
 		try {
 			SQLiteDatabase thessDB = myDbHelper.openDataBase();
-			Cursor c = thessDB.rawQuery("SELECT title, desc FROM MONUMENTS",
+			Cursor c = thessDB.rawQuery("SELECT _id,title, desc, image FROM MONUMENTS",
 					null);
 
 			if (c != null) {
 				if (c.moveToFirst()) {
 					do {
-						String MonumentTitle = c.getString(c
+						String id = c.getString(c
+								.getColumnIndex("_id"));
+						String monumentTitle = c.getString(c
 								.getColumnIndex("title"));
-						String Description = c.getString(c
+						String description = c.getString(c
 								.getColumnIndex("desc"));
-						titles.add(MonumentTitle);
-						descriptions.add(Description);
+						String image = c.getString(c
+								.getColumnIndex("image"));
+
+						ids.add(id);
+						titles.add(monumentTitle);
+						descriptions.add(description);
+						images.add(image);
 					} while (c.moveToNext());
 				}
 			}
 		} catch (SQLException sqle) {
 			throw sqle;
 		}
+		myDbHelper.close();
 		// the following method displays the monument titles with the help of a
 		// ListAdapter
-		ListView lv = displayResultList(titles, descriptions);
+		displayResultList(titles, descriptions);
 
 	}
 
@@ -87,39 +100,59 @@ public class ListMonuments extends ListActivity {
 		return lv;
 	}
 
-	private void showAlertDialog(int position){
-	    LayoutInflater inflater=LayoutInflater.from(this);
-	    View addView=inflater.inflate(R.layout.view_monument, null);
-	    ImageView image = (ImageView) addView.findViewById(R.id.monImage);
-	    image.setImageResource(R.drawable.image);
-
-	    new AlertDialog.Builder(this)
-	      .setTitle(getTitle(position))
-	      .setView(addView)
-	      .setMessage(getDesc(position))
-	      .setPositiveButton("View Details",
-	                          new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog,
-	                              int whichButton) {
-	          // ignore
-	        }
-	      })
-	      .setNegativeButton("Cancel",
-	                          new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog,
-	                              int whichButton) {
-	          // ignore, just dismiss
-	        }
-	      })
-	      .show();
+	private void showAlertDialog(final int position) {
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View addView = inflater.inflate(R.layout.view_alert_monument, null);
+		ImageView image = (ImageView) addView.findViewById(R.id.monImage);
+		String t = getImage(position);
+		image.setImageResource(getImageId(this, t));
+		
+		new AlertDialog.Builder(this)
+				.setTitle(getTitle(position))
+				.setView(addView)
+				.setMessage(getDesc(position))
+				.setPositiveButton("View Details",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+															
+								Intent intent = new Intent(ListMonuments.this,  ViewMonument.class);
+								Bundle b = new Bundle();				
+								//int a = Integer.parseInt(getId(position));
+								b.putInt("key", Integer.parseInt(getId(position)));
+								intent.putExtras(b);							
+								startActivity(intent);
+							}
+						})
+				.setNegativeButton("Back",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								// ignore, just dismiss
+							}
+						}).show();
 	}
-
-	private String getTitle(int position){
-		String t =  titles.get(position);
+	private String getId(int position){
+		String t = ids.get(position);
 		return t;
 	}
-	private String getDesc(int position){
+	private String getTitle(int position) {
+		String t = titles.get(position);
+		return t;
+	}
+
+	private String getDesc(int position) {
 		String t = descriptions.get(position);
 		return t;
+	}
+
+	public String getImage(int position) {
+		String t = images.get(position);
+		return t;
+	}
+
+	public static int getImageId(Context context, String imageName) {
+		return context.getResources().getIdentifier("drawable/" + imageName,
+				null, context.getPackageName());
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="medcollege.namespace"
-    android:versionCode="1"
+    android:versionCode="3"
     android:versionName="alpha" >
 
     <uses-sdk android:minSdkVersion="7" />
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name=".ThessCityGuideActivity"
+            android:name=".ThessCulturalGuideActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,12 +30,10 @@
         </activity>
         <activity android:name="ListSettings" >
         </activity>
-        <activity
-            android:name=".dialog"
-            android:theme="@android:style/Theme.NoDisplay" >
+        <activity android:name="ViewMonument">          
         </activity>
-
         <uses-library android:name="com.google.android.maps" />
+        
     </application>
 
 </manifest>
