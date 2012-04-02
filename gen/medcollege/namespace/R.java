@@ -15,34 +15,44 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int agiasofia=0x7f020000;
-        public static final int image=0x7f020001;
-        public static final int kamara=0x7f020002;
-        public static final int marker_flag_img=0x7f020003;
-        public static final int whitetower=0x7f020004;
+        public static final int acheiro=0x7f020000;
+        public static final int agiasofia=0x7f020001;
+        public static final int agiosdimitrios=0x7f020002;
+        public static final int cur=0x7f020003;
+        public static final int holyapostles=0x7f020004;
+        public static final int kamara=0x7f020005;
+        public static final int marker_flag_img=0x7f020006;
+        public static final int medlogo=0x7f020007;
+        public static final int otetower=0x7f020008;
+        public static final int panagiachalkeon=0x7f020009;
+        public static final int saintnic=0x7f02000a;
+        public static final int sportsmuseum=0x7f02000b;
+        public static final int whitetower=0x7f02000c;
     }
     public static final class id {
-        public static final int coords=0x7f08000a;
+        public static final int coords=0x7f08000b;
         public static final int debug=0x7f080001;
-        public static final int exit=0x7f08000c;
+        public static final int exit=0x7f08000d;
         public static final int layout_root=0x7f080004;
         public static final int linearLayout1=0x7f080000;
         public static final int list=0x7f080003;
         public static final int mapview=0x7f080002;
-        public static final int mega_desc=0x7f080009;
+        public static final int mega_desc=0x7f08000a;
         public static final int monImage=0x7f080005;
-        public static final int monumentview=0x7f080006;
-        public static final int prefs=0x7f08000b;
-        public static final int title=0x7f080007;
-        public static final int type=0x7f080008;
+        public static final int monumentview=0x7f080007;
+        public static final int prefs=0x7f08000c;
+        public static final int scroller=0x7f080006;
+        public static final int title=0x7f080008;
+        public static final int type=0x7f080009;
     }
     public static final class layout {
         public static final int listmonuments=0x7f030000;
         public static final int main=0x7f030001;
         public static final int map=0x7f030002;
         public static final int simple_list_item_1=0x7f030003;
-        public static final int view_alert_monument=0x7f030004;
-        public static final int view_monument=0x7f030005;
+        public static final int splash=0x7f030004;
+        public static final int view_alert_monument=0x7f030005;
+        public static final int view_monument=0x7f030006;
     }
     public static final class menu {
         public static final int menu=0x7f070000;

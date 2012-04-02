@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/monumentview"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroller"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:fillViewport="true" >
 
-    <ImageView
-        android:id="@+id/monImage"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/monumentview"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:contentDescription="@+string/monumentImage" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="title" />
+        <ImageView
+            android:id="@+id/monImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@+string/monumentImage" />
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="type" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="title"
+            android:textSize="21sp" />
 
-    <TextView
-        android:id="@+id/mega_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="mega_description" />
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="type" />
 
-    <TextView
-        android:id="@+id/coords"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="coordinates" />
+        <TextView
+            android:id="@+id/mega_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mega_description" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/coords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="coordinates" />
+    </LinearLayout>
+
+</ScrollView>

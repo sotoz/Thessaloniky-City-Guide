@@ -19,9 +19,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ListMonuments extends ListActivity {
-	// one arrayList for the ids, titles, one for the descriptions and one for the
+	// one arrayList for the ids, titles, one for the descriptions and one for
+	// the
 	// images
 	private ArrayList<String> ids = new ArrayList<String>();
 	private ArrayList<String> titles = new ArrayList<String>();
@@ -29,6 +31,7 @@ public class ListMonuments extends ListActivity {
 	private ArrayList<String> images = new ArrayList<String>();
 
 	public int position;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,6 @@ public class ListMonuments extends ListActivity {
 		// PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		// String values = getPrefs.getString("list", "4");
 		// boolean buzzmode = getPrefs.getBoolean("checkboxBuzzmode", false);
-
 
 		// calling the databasehelper class to access some custom methods for
 		// manipulating the database
@@ -52,25 +54,19 @@ public class ListMonuments extends ListActivity {
 		}
 		try {
 			SQLiteDatabase thessDB = myDbHelper.openDataBase();
-			Cursor c = thessDB.rawQuery("SELECT _id,title, desc, image FROM MONUMENTS",
-					null);
+			Cursor c = thessDB.rawQuery(
+					"SELECT _id,title, desc, image FROM MONUMENTS", null);
 
 			if (c != null) {
 				if (c.moveToFirst()) {
 					do {
-						String id = c.getString(c
-								.getColumnIndex("_id"));
+						String monumentId = c
+								.getString(c.getColumnIndex("_id"));
 						String monumentTitle = c.getString(c
 								.getColumnIndex("title"));
-						String description = c.getString(c
-								.getColumnIndex("desc"));
-						String image = c.getString(c
-								.getColumnIndex("image"));
-
-						ids.add(id);
+						ids.add(monumentId);
 						titles.add(monumentTitle);
-						descriptions.add(description);
-						images.add(image);
+
 					} while (c.moveToNext());
 				}
 			}
@@ -80,12 +76,11 @@ public class ListMonuments extends ListActivity {
 		myDbHelper.close();
 		// the following method displays the monument titles with the help of a
 		// ListAdapter
-		displayResultList(titles, descriptions);
+		displayResultList(titles);
 
 	}
 
-	private ListView displayResultList(ArrayList<String> titles,
-			ArrayList<String> descriptions) {
+	private ListView displayResultList(ArrayList<String> titles) {
 		setListAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, titles));
 		ListView lv = getListView();
@@ -94,7 +89,23 @@ public class ListMonuments extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				showAlertDialog(position);
+
+				try {
+					Intent intent = new Intent(ListMonuments.this,
+							ViewMonument.class);
+
+					Bundle b = new Bundle();
+
+					b.putInt("key", Integer.parseInt(getId(position)));
+					intent.putExtras(b);
+					startActivity(intent);
+				} catch (IndexOutOfBoundsException ie) {
+					ie.printStackTrace();
+					Toast t = Toast.makeText(getApplicationContext(),
+							(CharSequence) ie, 3000);
+					t.show();
+				}
+
 			}
 		});
 		return lv;
@@ -106,7 +117,7 @@ public class ListMonuments extends ListActivity {
 		ImageView image = (ImageView) addView.findViewById(R.id.monImage);
 		String t = getImage(position);
 		image.setImageResource(getImageId(this, t));
-		
+
 		new AlertDialog.Builder(this)
 				.setTitle(getTitle(position))
 				.setView(addView)
@@ -115,12 +126,14 @@ public class ListMonuments extends ListActivity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-															
-								Intent intent = new Intent(ListMonuments.this,  ViewMonument.class);
-								Bundle b = new Bundle();				
-								//int a = Integer.parseInt(getId(position));
-								b.putInt("key", Integer.parseInt(getId(position)));
-								intent.putExtras(b);							
+
+								Intent intent = new Intent(ListMonuments.this,
+										ViewMonument.class);
+								Bundle b = new Bundle();
+								// int a = Integer.parseInt(getId(position));
+								b.putInt("key",
+										Integer.parseInt(getId(position)));
+								intent.putExtras(b);
 								startActivity(intent);
 							}
 						})
@@ -132,10 +145,12 @@ public class ListMonuments extends ListActivity {
 							}
 						}).show();
 	}
-	private String getId(int position){
+
+	private String getId(int position) {
 		String t = ids.get(position);
 		return t;
 	}
+
 	private String getTitle(int position) {
 		String t = titles.get(position);
 		return t;

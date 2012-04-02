@@ -26,12 +26,19 @@ public class ThessCulturalGuideActivity extends TabActivity {
 		intent = new Intent().setClass(this, ListMonuments.class);
 		spec = tabHost
 				.newTabSpec("Tab 1")
-				.setIndicator("List",
+				.setIndicator("What's near me",
 						res.getDrawable(android.R.drawable.ic_menu_today))
 				.setContent(intent);
 		tabHost.addTab(spec);
-
 		// Second Tab
+		intent = new Intent().setClass(this, WhatToVisit.class);
+		spec = tabHost
+				.newTabSpec("Tab 3")
+				.setIndicator("What to visit",
+						res.getDrawable(android.R.drawable.ic_menu_myplaces))
+				.setContent(intent);
+		tabHost.addTab(spec);
+		// Third Tab
 		intent = new Intent().setClass(this, MonumentMap.class);
 		spec = tabHost
 				.newTabSpec("Tab 2")

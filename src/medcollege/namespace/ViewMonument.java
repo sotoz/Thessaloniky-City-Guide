@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 public class ViewMonument extends Activity {
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,9 +21,8 @@ public class ViewMonument extends Activity {
 		try {
 			if (extras != null) {
 				int value = (extras.getInt("key", 0));
-				Log.v("gia select", "id = "+ value);
+				Log.v("gia select", "id = " + value);
 				getSelect(value);
-
 			}
 
 		} catch (Exception e) {
@@ -38,42 +36,40 @@ public class ViewMonument extends Activity {
 		TextView tType = (TextView) findViewById(R.id.type);
 		TextView tMegaDesc = (TextView) findViewById(R.id.mega_desc);
 		TextView tCoords = (TextView) findViewById(R.id.coords);
-		
+
 		DataBaseHelper myDbHelper = new DataBaseHelper(null);
 		myDbHelper = new DataBaseHelper(this);
-		
+
 		try {
 			SQLiteDatabase thessDB = myDbHelper.openDataBase();
-			Cursor c = thessDB.rawQuery(
-					"SELECT * FROM MONUMENTS WHERE _id = " + id,
-					null);
-				if (c != null) {
-					if (c.moveToFirst()) {
-						do {
-							//String idz = c.getString(c.getColumnIndex("_id"));
-							String monumentTitle = c.getString(c
-									.getColumnIndex("title"));
-							//String type = c.getString(c.getColumnIndex("type"));
-							String mega_description = c.getString(c
-									.getColumnIndex("mega_desc"));
-							String image = c.getString(c
-									.getColumnIndex("image"));
-							int lon = c.getInt(c.getColumnIndex("lon"));
-							int lat = c.getInt(c.getColumnIndex("lat"));
-								
-							tTitle.setText(monumentTitle);
-							//tType.setText(type);
-							tMegaDesc.setText(mega_description);
+			Cursor c = thessDB.rawQuery("SELECT * FROM MONUMENTS WHERE _id = "
+					+ id, null);
+			if (c != null) {
+				if (c.moveToFirst()) {
+					do {
+						// String idz = c.getString(c.getColumnIndex("_id"));
+						String monumentTitle = c.getString(c
+								.getColumnIndex("title"));
+						String type = c.getString(c.getColumnIndex("type_id"));
+						String mega_description = c.getString(c
+								.getColumnIndex("mega_desc"));
+						String image = c.getString(c.getColumnIndex("image"));
+						int lon = c.getInt(c.getColumnIndex("lon"));
+						int lat = c.getInt(c.getColumnIndex("lat"));
 
-							imageV.setImageResource(this.getResources()
-									.getIdentifier("drawable/" + image, null,
-											this.getPackageName()));
-							tCoords.setText("Coordinates : "+ lon + " + " + lat);
+						tTitle.setText(monumentTitle);
+						tType.setText(type);
+						tMegaDesc.setText(mega_description);
 
-						} while (c.moveToNext());
-					}
+						imageV.setImageResource(this.getResources()
+								.getIdentifier("drawable/" + image, null,
+										this.getPackageName()));
+						tCoords.setText("Coordinates : " + lon + " + " + lat);
+
+					} while (c.moveToNext());
 				}
-			
+			}
+
 		} catch (SQLException sqle) {
 			throw sqle;
 		}

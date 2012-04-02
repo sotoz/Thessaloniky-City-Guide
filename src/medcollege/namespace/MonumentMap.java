@@ -1,28 +1,31 @@
 package medcollege.namespace;
 
+import java.io.IOException;
 import java.util.List;
 
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class MonumentMap extends MapActivity {
-	private static final int latitudeKam = 40632299;
-	private static final int longitudeKam = 22951840;
-
 	private MapView myMapView;
 	private MapController myMapController;
 
@@ -37,87 +40,127 @@ public class MonumentMap extends MapActivity {
 		setContentView(R.layout.map);
 		SharedPreferences getPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
-		
-		int zoomV = getPrefs.getInt("zoomValueSlider", 6);
-		//String z = getPrefs.getString("zoomValue", "6");
-		//int zoomV = Integer.parseInt(z);
-		
-		myMapView = (MapView) findViewById(R.id.mapview);
 
-		myMapView.setSatellite(true); // energopoihse to sat view
+		int zoomV = getPrefs.getInt("zoomValueSlider", 16);
+
+		myMapView = (MapView) findViewById(R.id.mapview);
+		myMapView.setSatellite(false); // apenergopoihse to sat view
 		myMapController = myMapView.getController();
-		myMapController.setZoom(zoomV); // arxiko zoom level setarismeno apo ta settings
+		myMapController.setZoom(zoomV); // arxiko zoom level setarismeno apo ta
+										// settings
 		myMapView.setBuiltInZoomControls(true);
 
-		LocationManager locationManager;
-		String context = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager) getSystemService(context);
+		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+				myMapView);
+		myMapView.getOverlays().add(myLocationOverlay);
+		myLocationOverlay.enableCompass(); // if you want to display a compass
+											// also
+		myLocationOverlay.enableMyLocation();
 
-		// xrisimopoioume to class criteria gia na dosoume sto android tin
-		// epilogi an tha epileksei to gps i to sima tou diktuou gia
-		// mas dosei tin thesi mas.
+		try {
+			LocationManager locationManager;
+			String context = Context.LOCATION_SERVICE;
+			locationManager = (LocationManager) getSystemService(context);
 
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setAltitudeRequired(false);
-		criteria.setBearingRequired(false);
-		criteria.setCostAllowed(true);
-		criteria.setPowerRequirement(Criteria.POWER_LOW);
+			// xrisimopoioume to class criteria gia na dosoume sto android tin
+			// epilogi an tha epileksei to gps i to sima tou diktuou gia
+			// mas dosei tin thesi mas.
 
-		// String provider = LocationManager.GPS_PROVIDER;
-		String provider = locationManager.getBestProvider(criteria, true);
-		Location location = locationManager.getLastKnownLocation(provider);
-		locationManager.requestLocationUpdates(provider, 2000, 10,
-				locationListener);
+			Criteria criteria = new Criteria();
+			criteria.setAccuracy(Criteria.ACCURACY_FINE);
+			criteria.setAltitudeRequired(false);
+			criteria.setBearingRequired(false);
+			criteria.setCostAllowed(true);
+			criteria.setPowerRequirement(Criteria.POWER_LOW);
 
-		if (location != null) {
-			double lat = location.getLatitude();
-			double lng = location.getLongitude();
-			int latint = (int) (lat * 1000000);
-			int lngint = (int) (lng * 1000000);
-			// metatrepw me casts ta double
-			// coords se int gia na doulepsei to
-			// geopoint
-			GeoPoint point = new GeoPoint(latint, lngint);
-			kentrareTopothesia(point);
-		} else {
-			int lat = 40632006;
-			int lng = 22954095;
-			GeoPoint point = new GeoPoint(lat, lng);
-			kentrareTopothesia(point);
+			String provider = locationManager.getBestProvider(criteria, true);
+			Location location = locationManager.getLastKnownLocation(provider);
+			locationManager.requestLocationUpdates(provider, 2000, 10,
+					locationListener);
+
+			if (location != null) {
+				double lat = location.getLatitude();
+				double lng = location.getLongitude();
+				int latint = (int) (lat * 1000000);
+				int lngint = (int) (lng * 1000000);
+				// metatrepw me casts ta double
+				// coords se int gia na doulepsei to
+				// geopoint
+				GeoPoint point = new GeoPoint(latint, lngint);
+				kentrareTopothesia(point);
+
+			} else {
+				int lat = 40632006;
+				int lng = 22954095;
+				GeoPoint point = new GeoPoint(lat, lng);
+				kentrareTopothesia(point);
+
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			Toast t = Toast.makeText(getApplicationContext(), "No GPS Found",
+					3500);
+			t.show();
 		}
-
-
 		// parakato dimiourgo to overlay gia ta eikonidia pou tha emfanizonte
 		// ston xarti
-		List<Overlay> mapOverlays = myMapView.getOverlays();
+
+		List<Overlay> mapOverlays = myMapView.getOverlays(); // create the
+																// custom map
+																// overlays
 		Drawable drawable = this.getResources().getDrawable(
 				R.drawable.marker_flag_img);
-		CustomItemizedOverlay itemizedOverlay = new CustomItemizedOverlay(
+		CustomItemizedOverlay museumOverlay = new CustomItemizedOverlay(
 				drawable, this);
 
-		GeoPoint kamara = new GeoPoint(latitudeKam, longitudeKam);
-		// dimiourgite ena geopoint gia kathe POI pou xriazomaste.
-		OverlayItem overlayitem = new OverlayItem(
-				kamara,
-				"Kamara",
-				"One of the most characteristic monuments of Thessaloniki is the triumphal Arch of Galerius (Kamara), located north of Egnatia Street and in close proximity to the Rotunda.");
-		// mporoume na emfanisoume ena minimataki otan klikarei kapios
-		// pano sto ikonidio
-	
-		itemizedOverlay.addOverlay(overlayitem);		
-		mapOverlays.add(itemizedOverlay);
-		
-		
+		DataBaseHelper myDbHelper = new DataBaseHelper(null);
+		myDbHelper = new DataBaseHelper(this);
+		try {
+			myDbHelper.createDataBase(); // this import the database that exists
+											// in the assets folder
+		} catch (IOException ioe) {
+			throw new Error("Unable to create database");
+		}
+		try {
+			SQLiteDatabase thessDB = myDbHelper.openDataBase();
+			Cursor c = thessDB.rawQuery(
+					"SELECT lon,lat,title, desc FROM MONUMENTS", null);
+
+			if (c != null) {
+				if (c.moveToFirst()) {
+					do {
+						int lon = c.getInt(c.getColumnIndex("lon"));
+						int lat = c.getInt(c.getColumnIndex("lat"));
+						String title = c.getString(c.getColumnIndex("title"));
+						String desc = c.getString(c.getColumnIndex("desc"));
+
+						// create a new point for each monument
+						GeoPoint pt = new GeoPoint(lat, lon);
+
+						OverlayItem overlayitem = new OverlayItem(pt, title,
+								desc);
+
+						museumOverlay.addOverlay(overlayitem);
+
+					} while (c.moveToNext());
+				}
+			}
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
+		myDbHelper.close();
+
+		mapOverlays.add(museumOverlay);
+
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
 
 		public void onLocationChanged(Location argLocation) {
 			// TODO Auto-generated method stub
-			GeoPoint myGeoPoint = new GeoPoint(
-					(int) (argLocation.getLatitude() * 1000000),
-					(int) (argLocation.getLongitude() * 1000000));
+			int lat = (int) (argLocation.getLatitude() * 1000000);
+			int lon = (int) (argLocation.getLongitude() * 1000000);
+			GeoPoint myGeoPoint = new GeoPoint(lat, lon);
 
 			kentrareTopothesia(myGeoPoint);
 		}
