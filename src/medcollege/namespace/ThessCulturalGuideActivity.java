@@ -23,7 +23,7 @@ public class ThessCulturalGuideActivity extends TabActivity {
 		Intent intent; // Reusable Intent for each tab
 
 		// First Tab
-		intent = new Intent().setClass(this, ListMonuments.class);
+		intent = new Intent().setClass(this, ListMonumentsActivity.class);
 		spec = tabHost
 				.newTabSpec("Tab 1")
 				.setIndicator("What's near me",
@@ -31,7 +31,7 @@ public class ThessCulturalGuideActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 		// Second Tab
-		intent = new Intent().setClass(this, WhatToVisit.class);
+		intent = new Intent().setClass(this, WhatToVisitActivity.class);
 		spec = tabHost
 				.newTabSpec("Tab 3")
 				.setIndicator("What to visit",
@@ -39,7 +39,7 @@ public class ThessCulturalGuideActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 		// Third Tab
-		intent = new Intent().setClass(this, MonumentMap.class);
+		intent = new Intent().setClass(this, MonumentMapActivity.class);
 		spec = tabHost
 				.newTabSpec("Tab 2")
 				.setIndicator("Map View",
@@ -61,17 +61,30 @@ public class ThessCulturalGuideActivity extends TabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.about:
+			Intent intentab = new Intent(this, AboutActivity.class);
+			this.startActivity(intentab);
+			return true;
 		case R.id.prefs:
-			Intent intent = new Intent(this, ListSettings.class);
+			Intent intent = new Intent(this, ListSettingsActivity.class);
 			this.startActivity(intent);
 			return true;
 		case R.id.exit:
-
-			System.exit(0);
+			try {
+				super.finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				Splash.ml.deleteList(); //delete the monument list when the stop button gets pressed.
+				System.exit(0);
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+
 
 }

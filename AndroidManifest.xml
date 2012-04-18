@@ -33,15 +33,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="ListMonuments" >
+        <activity android:name="ListMonumentsActivity" >
         </activity>
-        <activity android:name="WhatToVisit" >
+        <activity android:name="WhatToVisitActivity" >
         </activity>
-        <activity android:name="MonumentMap" >
+        <activity android:name="MonumentMapActivity" >
         </activity>
-        <activity android:name="ListSettings" >
+        <activity android:name="ListSettingsActivity" >
         </activity>
-        <activity android:name="ViewMonument" >
+        <activity android:name="ViewMonumentActivity" >
+        </activity>
+        <activity android:name="AboutActivity" >
         </activity>
 
         <uses-library android:name="com.google.android.maps" />

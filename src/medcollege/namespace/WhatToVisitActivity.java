@@ -1,12 +1,8 @@
 package medcollege.namespace;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +10,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class WhatToVisit extends ListActivity {
+public class WhatToVisitActivity extends ListActivity {
 	private ArrayList<String> types = new ArrayList<String>();
+	Integer museums = 0;
+	Integer churches = 0;
+	Integer statues = 0;
+	Integer monuments = 0;
+	Integer defaults = 0;
+	Monument mm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,35 +25,34 @@ public class WhatToVisit extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listmonuments);
 
-		DataBaseHelper myDbHelper = new DataBaseHelper(null);
-		myDbHelper = new DataBaseHelper(this);
-		try {
-			myDbHelper.createDataBase(); // this import the database that exists
-											// in the assets folder
-		} catch (IOException ioe) {
-			throw new Error("Unable to create database");
-		}
-		try {
-			SQLiteDatabase thessDB = myDbHelper.openDataBase();
-			Cursor c = thessDB.rawQuery(
-					"SELECT * FROM TYPE", null);
-
-			if (c != null) {
-				if (c.moveToFirst()) {
-					do {
-
-						String monumentType = c.getString(c
-								.getColumnIndex("type_desc"));
-
-						types.add(monumentType);
-
-					} while (c.moveToNext());
-				}
+		for (int i = 0; i < Splash.ml.getSize(); i++) {
+			mm = Splash.ml.getMonument(i);
+			if (mm.getType().equals("Church")) {
+				churches++;
 			}
-		} catch (SQLException sqle) {
-			throw sqle;
+			if (mm.getType().equals("Museum")) {
+				museums++;
+			}
+			if (mm.getType().equals("Monument")) {
+				monuments++;
+			}
+			if (mm.getType().equals("Statue")) {
+				statues++;
+			}
+			if (!mm.getType().equals("Church")
+					&& !mm.getType().equals("Museum")
+					&& !mm.getType().equals("Monument")
+					&& !mm.getType().equals("Statue")) {
+				defaults++;
+			}
+
 		}
-		myDbHelper.close();
+		types.add("Churches (" + churches.toString() + ")");
+		types.add("Museums (" + museums.toString() + ")");
+		types.add("Statues (" + statues.toString() + ")");
+		types.add("Monuments (" + monuments.toString() + ")");
+		types.add("Other (" + defaults.toString() + ")");
+
 		displayResultTypes(types);
 	}
 
@@ -65,7 +66,7 @@ public class WhatToVisit extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
+
 			}
 		});
 		return lv;

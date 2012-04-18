@@ -12,7 +12,9 @@
 	<string name="list">Monument Listing</string>
 	<string name="debug">Thessaloniki Cultural Guide ver0.3</string>
 	<string name="zoomValue">Zoom</string>
+	<string name="about">About</string>
 	<string name="exit">Exit</string>
 	<string name="preferences">Preferences</string>
 	<string name="monImage">Monument Image</string>
+	<string name="aboutus">This application was developed by the students of mclab.gr for educational purposes. The source code is under GPL and it is available at www.mclab.gr</string>
 </resources>

@@ -3,7 +3,7 @@ package medcollege.namespace;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-public class ListSettings extends PreferenceActivity {
+public class ListSettingsActivity extends PreferenceActivity {
 
 	/** Called when the activity is first created. */
 	@Override

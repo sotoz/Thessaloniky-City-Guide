@@ -26,12 +26,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	 * Constructor Takes and keeps a reference of the passed context in order to
 	 * access to the application assets and resources.
 	 * 
-	 * @param context
+	 * @param thread
 	 */
-	public DataBaseHelper(Context context) {
+	public DataBaseHelper(Context thread) {
 
-		super(context, DB_NAME, null, 1);
-		this.myContext = context;
+		super(thread, DB_NAME, null, 1);
+		this.myContext = thread;
 	}
 
 	/**
