@@ -66,7 +66,7 @@ public class Splash extends Activity {
 
 						Monument m = new Monument(monumentId, monumentTitle,
 								monumentDescription, monumentImage,
-								monumentType, monumentLong, monumentLat,
+								monumentType, monumentLat, monumentLong,
 								curLatitude, curLongitude);
 						ml.addMonument(m);
 						ml.addToMap(monumentId, m);
@@ -133,8 +133,8 @@ public class Splash extends Activity {
 				// latint = (double) (lat * 1000000);
 				// lngint = (double) (lng * 1000000);
 			} else {
-				curLatitude = 22.954095;
-				curLongitude = 40.632006;
+				curLatitude = 40.632006;
+				curLongitude = 22.954095;
 			}
 		} catch (NullPointerException e) {
 			Toast t = Toast.makeText(getApplicationContext(),

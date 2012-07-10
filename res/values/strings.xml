@@ -16,5 +16,8 @@
 	<string name="exit">Exit</string>
 	<string name="preferences">Preferences</string>
 	<string name="monImage">Monument Image</string>
+	<string name="montitle">Monument Title</string>
+	<string name="montype">Monument Type</string>
+	<string name="mega_description">Monument Description</string>
 	<string name="aboutus">This application was developed by the students of mclab.gr for educational purposes. The source code is under GPL and it is available at www.mclab.gr</string>
 </resources>

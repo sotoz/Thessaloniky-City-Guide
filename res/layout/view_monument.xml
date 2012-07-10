@@ -23,20 +23,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="title"
+            android:text="@+string/montitle"
             android:textSize="21sp" />
 
         <TextView
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="type" />
+            android:text="@+string/montype" />
 
         <TextView
             android:id="@+id/mega_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mega_description" />
+            android:text="@+string/mega_description" />
 
 
     </LinearLayout>

@@ -16,7 +16,7 @@ public class Monument {
 
 
 	public Monument(Integer id, String title, String description, String image,
-			String type, Double lon, Double lat,Double curLongitude, Double curLatitude
+			String type, Double lat, Double lon, Double curLatitude, Double curLongitude
 			) {
 		this.title = title;
 		this.id = id;
