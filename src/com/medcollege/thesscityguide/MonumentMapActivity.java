@@ -185,25 +185,36 @@ public class MonumentMapActivity extends MapActivity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
+		// TODO Auto-generated method stub		
 		locationManager.removeUpdates(locationListener);
+		super.onPause();
+	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		Splash.ml.deleteList();
+		locationManager.removeUpdates(locationListener);
+		locationManager = null;
+		
+		super.onStop();
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		super.onResume();
+		
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		criteria.setAltitudeRequired(false);
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
+		
 		String provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 2000, 10,
 				locationListener);
+		super.onResume();
 	};
 
 }

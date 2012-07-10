@@ -87,5 +87,10 @@ public class WhatToVisitActivity extends ListActivity {
 		});
 		return lv;
 	}
-
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		Splash.ml.deleteList(); //delete the monument list when the stop button gets pressed.
+		super.onBackPressed();
+	}
 }

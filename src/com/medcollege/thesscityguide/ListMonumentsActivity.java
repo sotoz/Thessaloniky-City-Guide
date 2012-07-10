@@ -79,4 +79,5 @@ public class ListMonumentsActivity extends ListActivity {
 		Splash.ml.deleteList(); //delete the monument list when the stop button gets pressed.
 		super.onBackPressed();
 	}
+	
 }

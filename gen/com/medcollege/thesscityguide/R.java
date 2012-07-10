@@ -61,10 +61,11 @@ public final class R {
         public static final int thessaloniki_cinema_museum=0x7f02002f;
         public static final int thessaloniki_ruins_of_the_palace_of_roman_emperor_galerius=0x7f020030;
         public static final int thessaloniki_white_tower=0x7f020031;
-        public static final int vlatadon_monastery=0x7f020032;
-        public static final int war_museum_of_thess=0x7f020033;
-        public static final int water_works_museum=0x7f020034;
-        public static final int yenicami=0x7f020035;
+        public static final int thesscityicon=0x7f020032;
+        public static final int vlatadon_monastery=0x7f020033;
+        public static final int war_museum_of_thess=0x7f020034;
+        public static final int water_works_museum=0x7f020035;
+        public static final int yenicami=0x7f020036;
     }
     public static final class id {
         public static final int about=0x7f060000;
