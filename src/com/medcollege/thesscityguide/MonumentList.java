@@ -1,6 +1,5 @@
 package com.medcollege.thesscityguide;
 
-import android.annotation.SuppressLint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,7 +8,7 @@ import java.util.Map;
 
 public class MonumentList {
 	ArrayList<Monument> monuments;
-	@SuppressLint("UseSparseArrays")
+	
 	Map<Integer, Monument> mml = new HashMap<Integer, Monument>();
 		
 	public MonumentList(){

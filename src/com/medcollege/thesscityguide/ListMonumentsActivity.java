@@ -1,5 +1,6 @@
 package com.medcollege.thesscityguide;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
@@ -27,9 +28,18 @@ public class ListMonumentsActivity extends ListActivity {
 		// get current position
 
 		for (int i = 0; i < Splash.ml.getSize(); i++) {
+			String msgDistance;
 			Monument mm = Splash.ml.getMonument(i);
-					
-			titles.add(mm.getTitle()+" -- Distance: "+mm.getDistanceFromCurPosToString()+"(m)");
+			double dist = (double) mm.getDistanceFromCurPos().intValue();
+			if (dist > 1000){ 
+				dist = dist/1000;
+				DecimalFormat ff = new DecimalFormat("#.##");				
+				msgDistance = " -- Distance: "+ff.format(dist)+ "(km)";
+			}else {
+				msgDistance = " -- Distance: "+dist+ "(m)";
+			}
+			
+			titles.add(mm.getTitle() + msgDistance);
 			monumentIDs.add(mm.getId());	
 		}
 

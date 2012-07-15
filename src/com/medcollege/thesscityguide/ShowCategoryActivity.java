@@ -1,5 +1,6 @@
 package com.medcollege.thesscityguide;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
@@ -36,13 +37,20 @@ public class ShowCategoryActivity extends ListActivity {
 		} catch (Exception e) {
 			Log.v("ViewMonument", "exception =" + e);
 		}
-
+		String msgDistance;
 		if (value == 0) { // churches
 			for (int i = 0; i < Splash.ml.getSize(); i++) {
 				Monument mm = Splash.ml.getMonument(i);
+				double dist = (double) mm.getDistanceFromCurPos().intValue();
+				if (dist > 1000){ 
+					dist = dist/1000;
+					DecimalFormat ff = new DecimalFormat("#.##");				
+					msgDistance = " -- Distance: "+ff.format(dist)+ "(km)";
+				}else {
+					msgDistance = " -- Distance: "+dist+ "(m)";
+				}
 				if (mm.getType().equals("Churches")) {
-					titles.add(mm.getTitle() + " Distance: "
-							+ mm.getDistanceFromCurPosToString() + "(m)");
+					titles.add(mm.getTitle() + msgDistance);
 					monumentIDs.add(mm.getId());				
 				}
 			}
@@ -50,9 +58,16 @@ public class ShowCategoryActivity extends ListActivity {
 		if (value == 1) { // Museums
 			for (int i = 0; i < Splash.ml.getSize(); i++) {
 				Monument mm = Splash.ml.getMonument(i);
+				double dist = (double) mm.getDistanceFromCurPos().intValue();
+				if (dist > 1000){ 
+					dist = dist/1000;
+					DecimalFormat ff = new DecimalFormat("#.##");				
+					msgDistance = " -- Distance: "+ff.format(dist)+ "(km)";
+				}else {
+					msgDistance = " -- Distance: "+dist+ "(m)";
+				}
 				if (mm.getType().equals("Museums")) {
-					titles.add(mm.getTitle() + " Distance: "
-							+ mm.getDistanceFromCurPosToString() + "(m)");
+					titles.add(mm.getTitle() + msgDistance);
 					monumentIDs.add(mm.getId());
 
 				}
@@ -61,9 +76,16 @@ public class ShowCategoryActivity extends ListActivity {
 		if (value == 2) { // Ancient Buildings
 			for (int i = 0; i < Splash.ml.getSize(); i++) {
 				Monument mm = Splash.ml.getMonument(i);
+				double dist = (double) mm.getDistanceFromCurPos().intValue();
+				if (dist > 1000){ 
+					dist = dist/1000;
+					DecimalFormat ff = new DecimalFormat("#.##");				
+					msgDistance = " -- Distance: "+ff.format(dist)+ "(km)";
+				}else {
+					msgDistance = " -- Distance: "+dist+ "(m)";
+				}
 				if (mm.getType().equals("Ancient Buildings")) {
-					titles.add(mm.getTitle() + " Distance: "
-							+ mm.getDistanceFromCurPosToString() + "(m)");
+					titles.add(mm.getTitle() + msgDistance);
 					monumentIDs.add(mm.getId());
 				}
 			}
@@ -71,9 +93,16 @@ public class ShowCategoryActivity extends ListActivity {
 		if (value == 3) { // Libraries
 			for (int i = 0; i < Splash.ml.getSize(); i++) {
 				Monument mm = Splash.ml.getMonument(i);
+				double dist = (double) mm.getDistanceFromCurPos().intValue();
+				if (dist > 1000){ 
+					dist = dist/1000;
+					DecimalFormat ff = new DecimalFormat("#.##");				
+					msgDistance = " -- Distance: "+ff.format(dist)+ "(km)";
+				}else {
+					msgDistance = " -- Distance: "+dist+ "(m)";
+				}
 				if (mm.getType().equals("Libraries")) {
-					titles.add(mm.getTitle() + " Distance: "
-							+ mm.getDistanceFromCurPosToString() + "(m)");
+					titles.add(mm.getTitle() + msgDistance);
 					monumentIDs.add(mm.getId());
 				}
 			}
