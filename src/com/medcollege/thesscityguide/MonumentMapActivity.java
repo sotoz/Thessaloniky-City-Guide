@@ -25,8 +25,13 @@ public class MonumentMapActivity extends MapActivity {
 	private MapView myMapView;
 	private MapController myMapController;
 	private LocationManager locationManager;
+	private MyLocationOverlay myLocationOverlay;
+	private final Criteria criteria = new Criteria();
+	String context = Context.LOCATION_SERVICE;
+	Location location;
+	String provider;
 
-	private void kentrareTopothesia(GeoPoint centerGeoPoint) {
+	private void centerToLocation(GeoPoint centerGeoPoint) {
 		myMapController.animateTo(centerGeoPoint);
 	};
 
@@ -48,74 +53,38 @@ public class MonumentMapActivity extends MapActivity {
 										// settings
 		myMapView.setBuiltInZoomControls(true);
 
-		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+		myLocationOverlay = new MyLocationOverlay(this,
 				myMapView);
 		myMapView.getOverlays().add(myLocationOverlay);
-		myLocationOverlay.enableCompass();
-		myLocationOverlay.enableMyLocation();
 
-		try {
 
-			String context = Context.LOCATION_SERVICE;
-			locationManager = (LocationManager) getSystemService(context);
+		locationManager = (LocationManager) getSystemService(context);
 
-			// we use the criteria class to allow android to
-			// define the best location provider
+		// we use the criteria class to allow android to
+		// define the best location provider
 
-			Criteria criteria = new Criteria();
-			criteria.setAccuracy(Criteria.ACCURACY_FINE);
-			criteria.setAltitudeRequired(false);
-			criteria.setBearingRequired(false);
-			criteria.setCostAllowed(true);
-			criteria.setPowerRequirement(Criteria.POWER_LOW);
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAltitudeRequired(false);
+		criteria.setBearingRequired(false);
+		criteria.setCostAllowed(true);
+		criteria.setPowerRequirement(Criteria.POWER_LOW);
 
-			String provider = locationManager.getBestProvider(criteria, true);
-			Location location = locationManager.getLastKnownLocation(provider);
-			locationManager.requestLocationUpdates(provider, 2000, 10,
-					locationListener);
-
-			if (location != null) {
-				double lat = location.getLatitude();
-				double lng = location.getLongitude();
-				int latint = (int) (lat * 1000000);
-				int lngint = (int) (lng * 1000000);
-				// metatrepw me casts ta double
-				// coords se int gia na doulepsei to
-				// geopoint
-				GeoPoint point = new GeoPoint(latint, lngint);
-				kentrareTopothesia(point);
-
-			} else {
-				int lat = 40632006;
-				int lng = 22954095;
-				GeoPoint point = new GeoPoint(lat, lng);
-				kentrareTopothesia(point);
-
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			Toast t = Toast.makeText(getApplicationContext(), "No GPS Found",
-					Toast.LENGTH_LONG);
-			t.show();
-		}
+		registerListeners();
 		// parakato dimiourgo to overlay gia ta eikonidia pou tha emfanizonte
 		// ston xarti
-		
+
 		// create the custom map overlays
 		List<Overlay> mapOverlays = myMapView.getOverlays();
-		//List<Overlay> mapLibrariesOverlays = myMapView.getOverlays();
-		//List<Overlay> mapChurchesOverlays = myMapView.getOverlays(); 
-		//List<Overlay> mapMuseumsOverlays = myMapView.getOverlays(); 
-		
+
 		Drawable drawableChurches = this.getResources().getDrawable(
-				R.drawable.churches);		
+				R.drawable.churches);
 		Drawable drawableBuildings = this.getResources().getDrawable(
 				R.drawable.buildings);
 		Drawable drawableLibraries = this.getResources().getDrawable(
 				R.drawable.libraries);
 		Drawable drawableMuseums = this.getResources().getDrawable(
 				R.drawable.museums);
-		
+
 		CustomItemizedOverlay ChurchesOverlay = new CustomItemizedOverlay(
 				drawableChurches, this);
 		CustomItemizedOverlay BuildingsOverlay = new CustomItemizedOverlay(
@@ -124,7 +93,7 @@ public class MonumentMapActivity extends MapActivity {
 				drawableLibraries, this);
 		CustomItemizedOverlay MuseumsOverlay = new CustomItemizedOverlay(
 				drawableMuseums, this);
-		
+
 		for (int i = 0; i < Splash.ml.getSize(); i++) {
 			Monument mm = Splash.ml.getMonument(i);
 			int latsot = (int) (mm.getLat() * 1000000);
@@ -134,16 +103,16 @@ public class MonumentMapActivity extends MapActivity {
 
 			String kk = mm.getDescription();
 			OverlayItem overlayitem = new OverlayItem(pt, mm.getTitle(), kk);
-			if (mm.getType().equals("Churches")){			
+			if (mm.getType().equals("Churches")) {
 				ChurchesOverlay.addOverlay(overlayitem);
 			}
-			if (mm.getType().equals("Libraries")){
+			if (mm.getType().equals("Libraries")) {
 				LibrariesOverlay.addOverlay(overlayitem);
 			}
-			if (mm.getType().equals("Ancient Buildings")){
+			if (mm.getType().equals("Ancient Buildings")) {
 				BuildingsOverlay.addOverlay(overlayitem);
 			}
-			if (mm.getType().equals("Museums")){
+			if (mm.getType().equals("Museums")) {
 				MuseumsOverlay.addOverlay(overlayitem);
 			}
 		}
@@ -151,17 +120,17 @@ public class MonumentMapActivity extends MapActivity {
 		mapOverlays.add(MuseumsOverlay);
 		mapOverlays.add(LibrariesOverlay);
 		mapOverlays.add(BuildingsOverlay);
+
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
 
 		public void onLocationChanged(Location argLocation) {
-			// TODO Auto-generated method stub
 			int lat = (int) (argLocation.getLatitude() * 1000000);
 			int lon = (int) (argLocation.getLongitude() * 1000000);
 			GeoPoint myGeoPoint = new GeoPoint(lat, lon);
 
-			kentrareTopothesia(myGeoPoint);
+			centerToLocation(myGeoPoint);
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -169,7 +138,6 @@ public class MonumentMapActivity extends MapActivity {
 		}
 
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -182,39 +150,68 @@ public class MonumentMapActivity extends MapActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		registerListeners();
+	}
+	@Override
+	public void onBackPressed() {
+		unregisterListeners();
+		Splash.ml.deleteList(); // delete the monument list when the stop button
+								// gets pressed.
+		super.onBackPressed();
+	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub		
-		locationManager.removeUpdates(locationListener);
+	public void onPause() {
+		unregisterListeners();
 		super.onPause();
 	}
 
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		Splash.ml.deleteList();
-		locationManager.removeUpdates(locationListener);
-		locationManager = null;
-		
-		super.onStop();
+	private void registerListeners() {
+		try {
+			MyLocationOverlay l = getMyLocationOverlay();
+			l.enableCompass();
+			l.enableMyLocation();
+			provider = locationManager.getBestProvider(criteria, true);
+			location = locationManager.getLastKnownLocation(provider);
+			locationManager.requestLocationUpdates(provider, 2000, 10,
+					locationListener);
+
+			if (location != null) {
+				double lat = location.getLatitude();
+				double lng = location.getLongitude();
+				int latint = (int) (lat * 1000000);
+				int lngint = (int) (lng * 1000000);
+				// converting/casting the float points to integers (needed by the GeoPoint)
+				GeoPoint point = new GeoPoint(latint, lngint);
+				centerToLocation(point);
+
+			} else {
+				//assign a default lat,lng for the application if no location was received
+				int lat = 40632006;
+				int lng = 22954095;
+				GeoPoint point = new GeoPoint(lat, lng);
+				centerToLocation(point);
+
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			Toast t = Toast.makeText(getApplicationContext(), "No GPS Found",
+					Toast.LENGTH_LONG);
+			t.show();
+		}
 	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setAltitudeRequired(false);
-		criteria.setBearingRequired(false);
-		criteria.setCostAllowed(true);
-		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		
-		String provider = locationManager.getBestProvider(criteria, true);
-		locationManager.requestLocationUpdates(provider, 2000, 10,
-				locationListener);
-		super.onResume();
-	};
-
+	private MyLocationOverlay getMyLocationOverlay()
+	{
+		return myLocationOverlay;
+	}
+	private void unregisterListeners() {
+		MyLocationOverlay l = getMyLocationOverlay();
+		l.disableCompass();
+		l.disableMyLocation();		
+		locationManager.removeUpdates(locationListener);
+	}
 }

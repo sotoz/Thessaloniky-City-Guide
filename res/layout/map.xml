@@ -11,7 +11,7 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="65dp"
         android:layout_weight="0.27"
-        android:apiKey="0H4XAmTF0WIFeihMbVyRrbIwrEfqE-d0OAeev0A"
+        android:apiKey="0H4XAmTF0WIGkSZgRXTsM6aSqCPTloGm_beiEQw"
         android:clickable="true" >
     </com.google.android.maps.MapView>
 

@@ -72,7 +72,7 @@ public class ThessCityGuideActivity extends TabActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
-				Splash.ml.deleteList(); //delete the monument list when the stop button gets pressed.
+				//Splash.ml.deleteList(); //delete the monument list when the stop button gets pressed.
 				System.exit(0);
 			}
 			return true;
