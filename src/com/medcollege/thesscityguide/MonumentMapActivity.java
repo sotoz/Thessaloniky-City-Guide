@@ -101,7 +101,7 @@ public class MonumentMapActivity extends MapActivity {
 			// create a new point for each monument
 			GeoPoint pt = new GeoPoint(latsot, lonsot);
 
-			String kk = mm.getDescription();
+			String kk = mm.getDescription().substring(0, 250) + "...";
 			OverlayItem overlayitem = new OverlayItem(pt, mm.getTitle(), kk);
 			if (mm.getType().equals("Churches")) {
 				ChurchesOverlay.addOverlay(overlayitem);
